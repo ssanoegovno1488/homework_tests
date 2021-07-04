@@ -28,21 +28,20 @@ public class RegistrationFormTest {
         $("#firstName").setValue("Allo");
         $("#lastName").setValue("Yoba");
         $("#userEmail").setValue("bolsho@yoba.com");
-        $(byText("Other")).click(); //Не получилось использовать selectRadio по какой-то причине. Костыль.
+        $("#genterWrapper").$(byText("Other")).click(); //Не получилось использовать selectRadio по какой-то причине. Костыль.
         $("#userNumber").setValue("1234567890");
         $("#dateOfBirthInput").click();
         $(".react-datepicker__month-select").selectOption("March");
         $(".react-datepicker__year-select").selectOption("1900");
         $(".react-datepicker__day--015").click();
         $("#subjectsInput").setValue("Math").pressEnter();
-        $(byText("Reading")).click();
-        $(byText("Sports")).click();
+        $("#hobbiesWrapper").$(byText("Reading")).click();
+        $("#hobbiesWrapper").$(byText("Sports")).click();
         $("#uploadPicture").uploadFile(new File("src/test/recources/picture.png"));
         $("#currentAddress").setValue("Some_Street_1");
         $("#react-select-3-input").setValue("Haryana").pressEnter(); // штат
         $("#react-select-4-input").setValue("Karnal").pressEnter();
-        $("#submit").scrollIntoView(true);
-        $("#submit").click();
+        $("#submit").scrollIntoView(true).click();
 
         //Проверка результатов
 
