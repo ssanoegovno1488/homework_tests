@@ -1,4 +1,4 @@
-package tests;
+package homework_01_05_21;
 
 
 import com.codeborne.selenide.Configuration;
