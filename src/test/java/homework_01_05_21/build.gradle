@@ -1,0 +1,30 @@
+package homework_01_05_21
+
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8' //эта переменная нужна для корректной кодировки файлов в Windows
+}
+
+//sourceCompatibility = 11 //версия Java
+//targetCompatibility = 11
+
+dependencies {
+    // Selenide
+    testImplementation("com.codeborne:selenide:5.22.3")
+    testRuntimeOnly("org.slf4j:slf4j-simple:1.7.30") //подключение логов из сторонних библиотек
+
+    // JUnit 5
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
+}
+
+test {
+    useJUnitPlatform{}
+}

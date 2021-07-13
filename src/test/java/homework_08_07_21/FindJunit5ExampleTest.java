@@ -13,19 +13,18 @@ public class FindJunit5ExampleTest {
 
     @BeforeAll
     static void setup() {
-        Configuration.baseUrl = "https://github.com/selenide/selenide";
+        Configuration.baseUrl = "https://github.com";
         Configuration.startMaximized=true;
     }
 
     @Test
     void shouldFindWikiPageInSelenideRepository(){
-        open("/wiki");
-        $("#wiki-body").shouldHave(Condition.text("Soft assertions"));
-        $("#wiki-body").$(byText("Soft assertions")).click();
+        open("/selenide/selenide");
+        $(".UnderlineNav-body").$(byText("Wiki")).click();
+        $("#wiki-pages-filter").setValue("SoftAssertions");
+        $(".wiki-more-pages").shouldHave(Condition.text("SoftAssertions")).click();
         $(".markdown-body").shouldHave(Condition.text("Using JUnit5 extend test class:"))
                 .shouldHave(Condition.text("@ExtendWith({SoftAssertsExtension.class})"));
-        //здесь стоит отметить, что без четкого ТЗ - результат ХЗ, поэтому для проверки использовался
-        //лишь заголовок  и первая строчка кода, чего вполне хватает для того, чтобы убедиться
-        //в наличии описания JUnit5 на странице
+        //Решил идти не через клик по элементу, а через поиск.
     }
 }
