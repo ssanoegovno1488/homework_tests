@@ -1,5 +1,9 @@
 So this is my homework for qa.guru.
 
+Lesson from 10/07/21
+
+Address is /homework_10_07_21/src/test
+
 Lesson from 08/07/21
 
 Address is /src/test/java/homework_08_07_21
