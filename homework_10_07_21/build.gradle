@@ -15,6 +15,7 @@ compileTestJava {
 
 dependencies {
     // Selenide
+    implementation 'com.github.javafaker:javafaker:1.0.2'
     testImplementation("com.codeborne:selenide:5.22.3")
     testRuntimeOnly("org.slf4j:slf4j-simple:1.7.30") //подключение логов из сторонних библиотек
 

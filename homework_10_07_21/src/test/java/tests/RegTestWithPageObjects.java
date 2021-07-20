@@ -1,19 +1,32 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import pages.RegistrationPage;
 
-import java.io.File;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static Utils.RandomUtils.*;
 
 public class RegTestWithPageObjects {
 
-    String firstName = "Allo";
+    Faker faker = new Faker();
+    String firstName = faker.name().firstName(); // Emory
+    String lastName = faker.name().lastName(); // Barton
+    String address = faker.pokemon().name();
+
+    RegistrationPage registrationPage = new RegistrationPage();
+    String email = getRandomEmail();
+    String gender = "Other";
+    String number = getRandomPhoneNumber();
+    String day = "26";
+    String month = "April";
+    String year = "1990";
+    String subjects = "Maths";
+    String hobbie1 = "Reading";
+    String state = "Haryana";
+    String city = "Karnal";
+    String whereismyfile = "src/test/recources/picture.png";
 
     @BeforeAll
     static void setup() {
@@ -23,40 +36,31 @@ public class RegTestWithPageObjects {
     @Test
     void positiveFormFillTest(){
         //Ввод тестовых данных
-        open("/automation-practice-form");
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue("Yoba");
-        $("#userEmail").setValue("bolsho@yoba.com");
-        $("#genterWrapper").$(byText("Other")).click(); //Не получилось использовать selectRadio по какой-то причине. Костыль.
-        $("#userNumber").setValue("1234567890");
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("March");
-        $(".react-datepicker__year-select").selectOption("1900");
-        $(".react-datepicker__day--015").click();
-        $("#subjectsInput").setValue("Math").pressEnter();
-        $("#hobbiesWrapper").$(byText("Reading")).click();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        $("#uploadPicture").uploadFile(new File("src/test/recources/picture.png"));
-        $("#currentAddress").setValue("Some_Street_1");
-        $("#react-select-3-input").setValue("Haryana").pressEnter(); // штат
-        $("#react-select-4-input").setValue("Karnal").pressEnter();
-        $("#submit").scrollIntoView(true).click();
+        registrationPage.openPage();
+        registrationPage.checkPageTitle();
+        registrationPage.typeFirstName(firstName);
+        registrationPage.typeLastName(lastName);
+        registrationPage.typeEmail(email)
+                .selectGender(gender)
+                .typeNumber(number)
+                .setBirthDate(day, month, year)
+                .chooseSubject(subjects)
+                .choose2Hobbies(hobbie1)
+                .uploadAFile(whereismyfile)
+                .typeAdress(address)
+                .setStateAndCity(state, city)
+                .submitForm();
 
         //Проверка результатов
-
-        //Для чекбоксов Hobbies важен порядок: в какой последовательности заполнялись чекбоксы, в такой и будет результат
-        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-        $("tbody").$(byText("Student Name")).parent().shouldHave(text(firstName));
-        $("tbody").$(byText("Student Email")).parent().shouldHave(text("bolsho@yoba.com"));
-        $("tbody").$(byText("Gender")).parent().shouldHave(text("Other"));
-        $("tbody").$(byText("Mobile")).parent().shouldHave(text("1234567890"));
-        $("tbody").$(byText("Date of Birth")).parent().shouldHave(text("15 March,1900"));
-        $("tbody").$(byText("Subjects")).parent().shouldHave(text("Maths"));
-        $("tbody").$(byText("Hobbies")).parent().shouldHave(text("Reading, Sports"));
-        $("tbody").$(byText("Picture")).parent().shouldHave(text("picture.png"));
-        $("tbody").$(byText("Address")).parent().shouldHave(text("Some_Street_1"));
-        $("tbody").$(byText("State and City")).parent().shouldHave(text("Haryana Karnal"));
+        registrationPage.checkResultsTitle();
+        registrationPage.checkResultsValue(firstName + " " + lastName)
+                .checkResultsValue(email)
+                .checkResultsValue(gender)
+                .checkResultsValue(number)
+                .checkResultsValue(day + " " + month + "," + year)
+                .checkResultsValue(subjects)
+                .checkResultsValue(hobbie1)
+                .checkResultsValue(address)
+                .checkResultsValue(state + " " + city);
     }
 }
