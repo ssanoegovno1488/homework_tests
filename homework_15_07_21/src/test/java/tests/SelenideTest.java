@@ -8,11 +8,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class SelenideTest {
+    private static final String REPOSITORY = "eroshenkoam/allure-example";
+    private static final int ISSUE_NUMBER = 58;
+
     @BeforeAll
     static void setup() {
         Configuration.startMaximized = true;
@@ -29,14 +31,11 @@ public class SelenideTest {
     public void testRepositoryIssue() {
         open("https://github.com");
 
-        $(".header-search-input").click();
-        $(".header-search-input").sendKeys("eroshenkoam/allure-example");
-        $(".header-search-input").submit();
+        $(".header-search-input").setValue(REPOSITORY).submit();
 
-        $(By.linkText("eroshenkoam/allure-example")).click();
+        $(By.linkText(REPOSITORY)).click();
         $(By.partialLinkText("Issues")).click();
-        //$(".opened-by").shouldHave(Condition.text(" #58 opened"));
-        $("#issue_58").shouldHave(Condition.text("#58"));
+        $("#issue_58").shouldHave(Condition.text("#" + ISSUE_NUMBER));
 
 
     }
