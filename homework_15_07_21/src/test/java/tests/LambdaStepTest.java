@@ -31,20 +31,10 @@ public class LambdaStepTest {
     @Description("Тест на с применением лямбда-функций")
     @DisplayName("Проверка поиска работы по Issues с применением лямбда-методов")
     public void testRepositoryIssue() {
-        step("Открываем главную страницу", () -> {
-            open("https://github.com");
-        });
-        step("Ищем репозиторий" + REPOSITORY, () -> {
-            $(".header-search-input").click();
-            $(".header-search-input").sendKeys(REPOSITORY);
-            $(".header-search-input").submit();
-        });
-        step("Переходим в репозиторий" + REPOSITORY, () -> {
-            $(By.linkText(REPOSITORY)).click();
-        });
-        step("Переходим в раздел Issues", () -> {
-            $(By.partialLinkText("Issues")).click();
-        });
+        step("Открываем главную страницу", () -> open("https://github.com"));
+        step("Ищем репозиторий" + REPOSITORY, () -> $(".header-search-input").setValue(REPOSITORY).submit());
+        step("Переходим в репозиторий" + REPOSITORY, () -> $(By.linkText(REPOSITORY)).click());
+        step("Переходим в раздел Issues", () -> $(By.partialLinkText("Issues")).click());
         step("Проверяем, что существует issue с номером " + ISSUE_NUMBER, () -> {
             $("#issue_58").shouldHave(Condition.text("#" + ISSUE_NUMBER));
         });
